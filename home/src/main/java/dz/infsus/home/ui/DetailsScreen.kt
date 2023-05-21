@@ -1,7 +1,12 @@
 package dz.infsus.home.ui
 
+import android.app.DatePickerDialog
+import android.widget.DatePicker
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,15 +22,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import dz.infsus.common.state.homeState.HomeViewStore
+import dz.infsus.common.ui.components.Button
 import dz.infsus.common.ui.components.HorizontalSpacer
 import dz.infsus.common.ui.components.VerticalSpacer
 import dz.infsus.common.ui.theme.ColorPallet
 import org.koin.androidx.compose.getViewModel
+import java.util.Calendar
+import java.util.Date
 
 @Composable
 fun DetailsScreen(
@@ -176,7 +185,122 @@ fun DetailsScreen(
 
                     VerticalSpacer(value = 12.dp)
                 }
+
+                DatePicker(
+                    title = "Start Date Reservation",
+                    date = state.startDate,
+                    onDateSelected = { viewStore.changeStartReservationDate(it) }
+                )
+
+                VerticalSpacer(value = 12.dp)
+
+                DatePicker(
+                    title = "End Date Reservation",
+                    date = state.endDate,
+                    onDateSelected = { viewStore.changeEndReservationDate(it) }
+                )
+
+                VerticalSpacer(value = 12.dp)
+
+                AnimatedVisibility(visible = state.reservationError) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Reservation fail try again.",
+                            style = MaterialTheme.typography.body2.copy(color = ColorPallet.systemError700),
+                            textAlign = TextAlign.Center
+                        )
+
+                        VerticalSpacer(value = 12.dp)
+                    }
+                }
+
+                AnimatedVisibility(visible = state.reservationSuccess) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Reservation success.",
+                            style = MaterialTheme.typography.body2.copy(color = ColorPallet.systemSuccess700),
+                            textAlign = TextAlign.Center
+                        )
+
+                        VerticalSpacer(value = 12.dp)
+                    }
+                }
+
+                Button(
+                    text = "Reserve",
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { viewStore.reserve(advertId = advert.id, startDate = state.startDate, endDate = state.endDate) }
+                )
+                
+                VerticalSpacer(value = 32.dp)
             }
         }
+    }
+}
+
+@Composable
+fun DatePicker(
+    title: String,
+    date: String,
+    onDateSelected: (String) -> Unit
+) {
+
+    // Fetching the Local Context
+    val mContext = LocalContext.current
+
+    // Declaring integer values
+    // for year, month and day
+    val mYear: Int
+    val mMonth: Int
+    val mDay: Int
+
+    // Initializing a Calendar
+    val mCalendar = Calendar.getInstance()
+
+    // Fetching current year, month and day
+    mYear = mCalendar.get(Calendar.YEAR)
+    mMonth = mCalendar.get(Calendar.MONTH)
+    mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
+
+    mCalendar.time = Date()
+
+    val mDatePickerDialog = DatePickerDialog(
+        mContext,
+        { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
+            onDateSelected("$mYear-${mMonth + 1}-$mDay")
+        }, mYear, mMonth, mDay
+    )
+
+    mDatePickerDialog.setOnDateSetListener { _, year, month, dayOfMonth ->
+        onDateSelected("$year-${month + 1}-$dayOfMonth")
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.subtitle1.copy(color = ColorPallet.neutral900, fontWeight = FontWeight.Bold),
+        )
+
+        HorizontalSpacer(value = 12.dp)
+
+
+        Text(
+            text = date,
+            modifier = Modifier.clickable {
+                mDatePickerDialog.show()
+            },
+            style = MaterialTheme.typography.subtitle1.copy(color = ColorPallet.neutral900),
+        )
     }
 }

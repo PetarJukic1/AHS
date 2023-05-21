@@ -10,9 +10,12 @@ import dz.infsus.data.register.api.SignUpApi
 import dz.infsus.data.register.mapper.LogInMapper
 import dz.infsus.data.register.mapper.SignUpMapper
 import dz.infsus.data.register.repository.RemoteRegisterRepository
+import dz.infsus.data.reservation.api.ReservationApi
+import dz.infsus.data.reservation.repository.RemoteReserveRepository
 import dz.infsus.data.storeId.LocalStoreIdRepository
 import dz.infsus.domain.adverts.repository.AdvertsRepository
 import dz.infsus.domain.register.repository.RegisterRepository
+import dz.infsus.domain.reservation.repository.ReserveRepository
 import dz.infsus.domain.storeId.repository.StoreIdRepository
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -45,6 +48,15 @@ val dataModule = module {
 
         retrofit.create(AdvertsApi::class.java)
     }
+
+    single<ReservationApi> {
+        val retrofit = get<Retrofit.Builder>()
+            .baseUrl("http://vulama.ddns.net:4321/")
+            .build()
+
+        retrofit.create(ReservationApi::class.java)
+    }
+
     single<Retrofit.Builder> {
         Retrofit.Builder()
             .addConverterFactory(get<Json>().asConverterFactory("application/json".toMediaType()))
@@ -77,6 +89,12 @@ val dataModule = module {
         RemoteAdvertsRepository(
             advertsApi = get<AdvertsApi>(),
             mapper = get<AdvertsMapper>()
+        )
+    }
+
+    single<ReserveRepository> {
+        RemoteReserveRepository(
+            reservationApi = get<ReservationApi>(),
         )
     }
 

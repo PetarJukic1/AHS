@@ -16,7 +16,7 @@ class AdvertsMapper{
             id = advert.id,
             title = advert.title,
             description = advert.description,
-            pictures = advert.pictures.map { "http://vulama.ddns.net:4321/images/${it}" },
+            pictures = if(advert.pictures.isEmpty()) listOf("http://vulama.ddns.net:4321/images/1684533131772.jpg") else advert.pictures.map { "http://vulama.ddns.net:4321/images/${it}" },
             address = advert.address,
             city = advert.city,
             pricePerNight = advert.pricePerNight,

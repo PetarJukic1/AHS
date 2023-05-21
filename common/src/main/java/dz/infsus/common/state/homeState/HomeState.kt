@@ -11,6 +11,10 @@ data class HomeState(
     val city: String,
     val errorLoadingAdverts: Boolean,
     val adverts: AdvertsModel,
+    val startDate: String,
+    val endDate: String,
+    val reservationError: Boolean,
+    val reservationSuccess: Boolean,
 ){
     companion object{
         val Initial = HomeState(
@@ -19,7 +23,11 @@ data class HomeState(
             maxPrice = 1000.0f,
             city = "",
             errorLoadingAdverts = false,
-            adverts = AdvertsModel(emptyList())
+            adverts = AdvertsModel(emptyList()),
+            startDate = "2023-06-01",
+            endDate = "2023-06-01",
+            reservationError = false,
+            reservationSuccess = false,
         )
     }
 }
