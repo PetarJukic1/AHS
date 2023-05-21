@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import dz.infsus.common.error.AppError
+import dz.infsus.utils.error.AppError
 import dz.infsus.data.infrastructure.SharedPreferencesKeys
 import dz.infsus.domain.storeId.repository.StoreIdRepository
 

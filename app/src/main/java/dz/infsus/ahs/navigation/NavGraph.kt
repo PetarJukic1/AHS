@@ -8,6 +8,7 @@ import dz.infsus.appaccess.ui.AppAccessScreen
 import dz.infsus.home.ui.HomeScreen
 import dz.infsus.appaccess.ui.LoginScreen
 import dz.infsus.domain.storeId.usecase.GetIdUsecase
+import dz.infsus.home.ui.DetailsScreen
 import org.koin.androidx.compose.inject
 
 @Composable
@@ -31,6 +32,13 @@ fun SetupNavGraph(
                 }
             )
         }
-        composable(Screen.Home.route) { HomeScreen() }
+        composable(Screen.Home.route) {
+            HomeScreen(
+                goToDetails = { navController.navigate(Screen.Details.route) }
+            )
+        }
+        composable(Screen.Details.route) {
+            DetailsScreen()
+        }
     }
 }

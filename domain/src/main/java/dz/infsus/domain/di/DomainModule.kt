@@ -1,5 +1,7 @@
 package dz.infsus.domain.di
 
+import dz.infsus.domain.adverts.repository.AdvertsRepository
+import dz.infsus.domain.adverts.usecase.GetAdvertsUsecase
 import dz.infsus.domain.register.repository.RegisterRepository
 import dz.infsus.domain.register.usecase.LogInUsecase
 import dz.infsus.domain.register.usecase.SignUpUsecase
@@ -30,6 +32,12 @@ val domainModule = module {
     single<SetIdUsecase>{
         SetIdUsecase.Default(
             repository = get<StoreIdRepository>()
+        )
+    }
+
+    single<GetAdvertsUsecase>{
+        GetAdvertsUsecase.Default(
+            repository = get<AdvertsRepository>()
         )
     }
 }

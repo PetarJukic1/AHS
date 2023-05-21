@@ -1,7 +1,7 @@
 package dz.infsus.domain.infrastructure
 
 import arrow.core.Either
-import dz.infsus.common.error.AppError
+import dz.infsus.utils.error.AppError
 
 interface QueryUseCase<out Response> {
     suspend operator fun invoke(): Either<AppError, Response>

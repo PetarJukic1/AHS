@@ -1,7 +1,7 @@
 package dz.infsus.domain.storeId.repository
 
 import arrow.core.Either
-import dz.infsus.common.error.AppError
+import dz.infsus.utils.error.AppError
 
 interface StoreIdRepository {
 

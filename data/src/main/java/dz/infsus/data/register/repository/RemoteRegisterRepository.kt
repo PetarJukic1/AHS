@@ -3,7 +3,7 @@ package dz.infsus.data.register.repository
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import dz.infsus.common.error.AppError
+import dz.infsus.utils.error.AppError
 import dz.infsus.data.register.api.LogInApi
 import dz.infsus.data.register.api.LogInRequest
 import dz.infsus.data.register.api.SignUpApi
@@ -13,8 +13,6 @@ import dz.infsus.data.register.mapper.SignUpMapper
 import dz.infsus.domain.register.model.LogInDetails
 import dz.infsus.domain.register.model.SignUpDetails
 import dz.infsus.domain.register.repository.RegisterRepository
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import retrofit2.HttpException
 
 class RemoteRegisterRepository(

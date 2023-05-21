@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TextField(
+    modifier: Modifier = Modifier,
     onTextChanged: (String) -> Unit,
     label: String,
     placeholder: String,
@@ -32,7 +33,7 @@ fun TextField(
 
     OutlinedTextField(
         singleLine = true,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedLabelColor = ColorPallet.primary900,
             focusedLabelColor = ColorPallet.primary600,

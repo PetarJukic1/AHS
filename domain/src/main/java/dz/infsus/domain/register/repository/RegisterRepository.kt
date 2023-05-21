@@ -1,7 +1,7 @@
 package dz.infsus.domain.register.repository
 
 import arrow.core.Either
-import dz.infsus.common.error.AppError
+import dz.infsus.utils.error.AppError
 import dz.infsus.domain.register.model.LogInDetails
 import dz.infsus.domain.register.model.SignUpDetails
 
