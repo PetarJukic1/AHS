@@ -4,6 +4,8 @@ import dz.infsus.domain.addNew.repository.AddNewRepository
 import dz.infsus.domain.addNew.usecase.AddNewAdvertUsecase
 import dz.infsus.domain.adverts.repository.AdvertsRepository
 import dz.infsus.domain.adverts.usecase.GetAdvertsUsecase
+import dz.infsus.domain.delete.repository.DeleteRepository
+import dz.infsus.domain.delete.usecase.DeleteAdvertUsecase
 import dz.infsus.domain.register.repository.RegisterRepository
 import dz.infsus.domain.register.usecase.LogInUsecase
 import dz.infsus.domain.register.usecase.SignUpUsecase
@@ -54,6 +56,12 @@ val domainModule = module {
     single<AddNewAdvertUsecase>{
         AddNewAdvertUsecase.Default(
             repository = get<AddNewRepository>()
+        )
+    }
+
+    single<DeleteAdvertUsecase>{
+        DeleteAdvertUsecase.Default(
+            repository = get<DeleteRepository>()
         )
     }
 }

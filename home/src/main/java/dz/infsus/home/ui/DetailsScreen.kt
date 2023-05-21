@@ -19,6 +19,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -38,10 +39,17 @@ import java.util.Date
 
 @Composable
 fun DetailsScreen(
+    onDelete: () -> Unit,
     viewStore: HomeViewStore = getViewModel()
 ) {
     val state = viewStore()
     val advert = state.adverts.adverts.firstOrNull { it.id == state.selectedAdvertId } ?: return
+
+    LaunchedEffect(state.deletionSuccess){
+        if(state.deletionSuccess){
+            onDelete()
+        }
+    }
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -232,11 +240,23 @@ fun DetailsScreen(
                     }
                 }
 
-                Button(
-                    text = "Reserve",
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = { viewStore.reserve(advertId = advert.id, startDate = state.startDate, endDate = state.endDate) }
-                )
+                Row(
+                    modifier=  Modifier.fillMaxWidth()
+                ){
+                    Button(
+                        text = "Reserve",
+                        modifier = Modifier.weight(1.0f),
+                        onClick = { viewStore.reserve(advertId = advert.id, startDate = state.startDate, endDate = state.endDate) }
+                    )
+
+                    HorizontalSpacer(value = 12.dp)
+
+                    Button(
+                        text = "Delete",
+                        modifier = Modifier.weight(1.0f),
+                        onClick = { viewStore.delete(advertId = state.selectedAdvertId) }
+                    )
+                }
                 
                 VerticalSpacer(value = 32.dp)
             }

@@ -7,6 +7,7 @@ import dz.infsus.domain.addNew.repository.AddNewRequest
 import dz.infsus.domain.addNew.usecase.AddNewAdvertUsecase
 import dz.infsus.domain.adverts.usecase.GetAdvertsUsecase
 import dz.infsus.domain.adverts.usecase.Request
+import dz.infsus.domain.delete.usecase.DeleteAdvertUsecase
 import dz.infsus.domain.reservation.repository.ReserveRequest
 import dz.infsus.domain.reservation.usecase.ReserveUsecase
 import dz.infsus.domain.storeId.usecase.GetIdUsecase
@@ -19,6 +20,7 @@ class HomeViewStore(
     private val getId: GetIdUsecase,
     private val makeReservation: ReserveUsecase,
     private val addNewAdvert: AddNewAdvertUsecase,
+    private val delete: DeleteAdvertUsecase,
 ) : ViewStore<HomeState>(AppState.homeState) {
 
     private val scope = CoroutineScope(Dispatchers.Default)
@@ -130,6 +132,23 @@ class HomeViewStore(
                     update { state ->
                         state.copy(
                             reservationSuccess = true
+                        )
+                    }
+                }
+            )
+
+        })
+    }
+
+    fun delete(advertId: Int) = scope.launch {
+        getId().fold({
+            return@launch
+        }, {
+           delete(dz.infsus.domain.delete.repository.DeleteRequest(advertId= advertId, ownerId = it)).fold(
+                {}, {
+                    update { state ->
+                        state.copy(
+                            deletionSuccess = true
                         )
                     }
                 }

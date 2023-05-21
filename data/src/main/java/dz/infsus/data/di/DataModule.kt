@@ -7,6 +7,8 @@ import dz.infsus.data.addNew.repository.RemoteAddNewRepository
 import dz.infsus.data.adverts.api.AdvertsApi
 import dz.infsus.data.adverts.mapper.AdvertsMapper
 import dz.infsus.data.adverts.repository.RemoteAdvertsRepository
+import dz.infsus.data.delete.api.DeleteApi
+import dz.infsus.data.delete.repository.RemoteDeleteRepository
 import dz.infsus.data.register.api.LogInApi
 import dz.infsus.data.register.api.SignUpApi
 import dz.infsus.data.register.mapper.LogInMapper
@@ -17,6 +19,7 @@ import dz.infsus.data.reservation.repository.RemoteReserveRepository
 import dz.infsus.data.storeId.LocalStoreIdRepository
 import dz.infsus.domain.addNew.repository.AddNewRepository
 import dz.infsus.domain.adverts.repository.AdvertsRepository
+import dz.infsus.domain.delete.repository.DeleteRepository
 import dz.infsus.domain.register.repository.RegisterRepository
 import dz.infsus.domain.reservation.repository.ReserveRepository
 import dz.infsus.domain.storeId.repository.StoreIdRepository
@@ -58,6 +61,14 @@ val dataModule = module {
             .build()
 
         retrofit.create(AddNewApi::class.java)
+    }
+
+    single<DeleteApi> {
+        val retrofit = get<Retrofit.Builder>()
+            .baseUrl("http://vulama.ddns.net:4321/")
+            .build()
+
+        retrofit.create(DeleteApi::class.java)
     }
 
     single<ReservationApi> {
@@ -106,6 +117,12 @@ val dataModule = module {
     single<ReserveRepository> {
         RemoteReserveRepository(
             reservationApi = get<ReservationApi>(),
+        )
+    }
+
+    single<DeleteRepository> {
+        RemoteDeleteRepository(
+            deleteApi = get<DeleteApi>(),
         )
     }
 

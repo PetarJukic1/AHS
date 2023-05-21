@@ -17,6 +17,7 @@ data class HomeState(
     val reservationSuccess: Boolean,
     val addNewState: AddNewState,
     val successfulAdd: Boolean,
+    val deletionSuccess: Boolean,
 ){
     companion object{
         val Initial = HomeState(
@@ -32,6 +33,7 @@ data class HomeState(
             reservationSuccess = false,
             addNewState = AddNewState.Initial,
             successfulAdd = false,
+            deletionSuccess = false,
         )
     }
 }

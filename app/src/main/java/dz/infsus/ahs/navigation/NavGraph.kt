@@ -40,7 +40,7 @@ fun SetupNavGraph(
             )
         }
         composable(Screen.Details.route) {
-            DetailsScreen()
+            DetailsScreen(onDelete = {navController.popBackStack()})
         }
         composable(Screen.AddNew.route) {
             AddNewScreen()
