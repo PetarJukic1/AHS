@@ -15,6 +15,8 @@ data class HomeState(
     val endDate: String,
     val reservationError: Boolean,
     val reservationSuccess: Boolean,
+    val addNewState: AddNewState,
+    val successfulAdd: Boolean,
 ){
     companion object{
         val Initial = HomeState(
@@ -28,6 +30,29 @@ data class HomeState(
             endDate = "2023-06-01",
             reservationError = false,
             reservationSuccess = false,
+            addNewState = AddNewState.Initial,
+            successfulAdd = false,
+        )
+    }
+}
+
+@optics
+data class AddNewState(
+    val title:String,
+    val description: String,
+    val address: String,
+    val city: String,
+    val pricePerNight: Float,
+    val ownerId: Int,
+){
+    companion object{
+        val Initial = AddNewState(
+            title = "",
+            description = "",
+            address = "",
+            city = "",
+            pricePerNight = 0.0f,
+            ownerId = 0,
         )
     }
 }

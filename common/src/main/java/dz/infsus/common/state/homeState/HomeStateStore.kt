@@ -3,6 +3,8 @@ package dz.infsus.common.state.homeState
 import dz.infsus.common.state.appState.AppState
 import dz.infsus.common.state.appState.homeState
 import dz.infsus.common.viewstore.ViewStore
+import dz.infsus.domain.addNew.repository.AddNewRequest
+import dz.infsus.domain.addNew.usecase.AddNewAdvertUsecase
 import dz.infsus.domain.adverts.usecase.GetAdvertsUsecase
 import dz.infsus.domain.adverts.usecase.Request
 import dz.infsus.domain.reservation.repository.ReserveRequest
@@ -16,6 +18,7 @@ class HomeViewStore(
     private val getAdverts: GetAdvertsUsecase,
     private val getId: GetIdUsecase,
     private val makeReservation: ReserveUsecase,
+    private val addNewAdvert: AddNewAdvertUsecase,
 ) : ViewStore<HomeState>(AppState.homeState) {
 
     private val scope = CoroutineScope(Dispatchers.Default)
@@ -26,6 +29,74 @@ class HomeViewStore(
                 minPrice = minPrice
             )
         }
+    }
+
+    fun updateNewAdvertTitle(title: String) {
+        update { state ->
+            state.copy(
+                addNewState = state.addNewState.copy(
+                    title = title
+                )
+            )
+        }
+    }
+
+    fun updateNewAdvertDescription(description: String) {
+        update { state ->
+            state.copy(
+                addNewState = state.addNewState.copy(
+                    description = description
+                )
+            )
+        }
+    }
+
+    fun updateNewAdvertAddress(address: String) {
+        update { state ->
+            state.copy(
+                addNewState = state.addNewState.copy(
+                    address = address
+                )
+            )
+        }
+    }
+
+    fun updateNewAdvertCity(city: String) {
+        update { state ->
+            state.copy(
+                addNewState = state.addNewState.copy(
+                    city = city
+                )
+            )
+        }
+    }
+
+    fun updateNewAdvertPricePerNight(price: String) {
+        update { state ->
+            state.copy(
+                addNewState = state.addNewState.copy(
+                    pricePerNight = price.toFloatOrNull() ?: 0.0f
+                )
+            )
+        }
+    }
+
+    fun addNew(data: AddNewState) = scope.launch {
+        val userId = getId().fold({ return@launch }, { it })
+        addNewAdvert(
+            AddNewRequest(
+                title = data.title,
+                description = data.description,
+                address = data.address,
+                city = data.city,
+                pricePerNight = data.pricePerNight,
+                ownerId = userId,
+            )
+        ).fold({},{
+            update { state->
+                state.copy(successfulAdd = true)
+            }
+        })
     }
 
     fun changeStartReservationDate(date: String) {

@@ -1,6 +1,7 @@
 package dz.infsus.home.di
 
 import dz.infsus.common.state.homeState.HomeViewStore
+import dz.infsus.domain.addNew.usecase.AddNewAdvertUsecase
 import dz.infsus.domain.adverts.usecase.GetAdvertsUsecase
 import dz.infsus.domain.reservation.usecase.ReserveUsecase
 import dz.infsus.domain.storeId.usecase.GetIdUsecase
@@ -13,6 +14,7 @@ val homeModule = module {
             getAdverts = get<GetAdvertsUsecase>(),
             getId = get<GetIdUsecase>(),
             makeReservation = get<ReserveUsecase>(),
+            addNewAdvert = get<AddNewAdvertUsecase>(),
         )
     }
 }

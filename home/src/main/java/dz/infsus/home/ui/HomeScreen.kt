@@ -62,6 +62,7 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
+    onAddNewClicked: () -> Unit,
     goToDetails: () -> Unit,
     viewStore: HomeViewStore = getViewModel()
 ) {
@@ -211,7 +212,7 @@ fun HomeScreen(
                 .padding(end = 24.dp, bottom = 24.dp)
                 .size(48.dp)
                 .align(Alignment.BottomEnd),
-            onClick = {}
+            onClick = onAddNewClicked
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Icon(
