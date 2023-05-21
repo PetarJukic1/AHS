@@ -5,6 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dz.infsus.appaccess.ui.AppAccessScreen
+import dz.infsus.home.ui.HomeScreen
+import dz.infsus.appaccess.ui.LoginScreen
+import dz.infsus.domain.storeId.usecase.GetIdUsecase
+import org.koin.androidx.compose.inject
 
 @Composable
 fun SetupNavGraph(
@@ -14,6 +18,19 @@ fun SetupNavGraph(
         navController = navController,
         startDestination = Screen.SignUp.route
     ) {
-        composable(Screen.SignUp.route) { AppAccessScreen() }
+        composable(Screen.SignUp.route) {
+            AppAccessScreen(onRegisterSuccess = {
+                navController.navigate(Screen.Home.route)
+            },
+                onLogInClicked = { navController.navigate(Screen.LogIn.route) })
+        }
+        composable(Screen.LogIn.route) {
+            LoginScreen(
+                onRegisterSuccess = {
+                    navController.navigate(Screen.Home.route)
+                }
+            )
+        }
+        composable(Screen.Home.route) { HomeScreen() }
     }
 }

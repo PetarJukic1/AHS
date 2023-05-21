@@ -1,5 +1,6 @@
 package dz.infsus.ahs
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,10 +23,13 @@ import androidx.navigation.compose.rememberNavController
 import dz.infsus.ahs.application.AHSApp
 import dz.infsus.ahs.navigation.SetupNavGraph
 import dz.infsus.ahs.ui.theme.AHSTheme
+import dz.infsus.domain.storeId.usecase.GetIdUsecase
+import org.koin.androidx.compose.inject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         setContent {
             AHSApp()
             var scaffoldBottomPadding: Dp by remember { mutableStateOf(0.dp) }
